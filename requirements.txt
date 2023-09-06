@@ -4,3 +4,4 @@ Flask==2.3.3
 opencv-python==4.6.0.66
 matplotlib==3.7.2
 matplotlib-inline==0.1.6
+numpy==1.25.2
