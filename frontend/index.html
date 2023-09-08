@@ -1,91 +1,26 @@
 <!DOCTYPE html>
-<header>
-    <title>Test page</title>
-</header>
-
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="style.css">
+    <script src="lib/jquery-3.7.1.min.js"></script>
+    <script src="imageTransfer.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
 <body>
-    <div>This is simple test to get data from a backend</div>
-    <div><span>Last update: </span><span id="time-container"></span></div>
-    <div>
-        <label for="data-input">Data to send:</label>
-        <input type="text" id="data-input">
-        <button onclick="sendData()">Send data</button>
-    </div>
-    <div>
-        <div id="sent-data-container"></div>
-    </div>
-    <hr>
-    <div>
-        <button onclick="getUsers()">Get user data</button>
-        <div id="result-container"></div>
-    </div>
+
+<h1>Study Website</h1>
+<h3>Boost your study sessions and generate your own practice problems, tailored to exactly what you're learning.</h3>
+
+<input type="file" id="homework-image">
+<input type="submit" value="Submit" id="homework-image-submit">
+
+<br>
+
+<img id="cropped-homework-image" alt="Image of submitted homework" hidden="hidden">
+
+
+
 </body>
-<script>
-    let xhr = null;
-    let dataDiv;
-    let dataToSend;
-
-    getXmlHttpRequestObject = function () {
-        if (!xhr) {
-            // Create a new XMLHttpRequest object
-            xhr = new XMLHttpRequest();
-        }
-        return xhr;
-    };
-
-    function dataCallback() {
-        // Check response is ready or not
-        if (xhr.readyState === 4 && xhr.status === 200) {
-            console.log("User data received!");
-            getDate();
-            dataDiv = document.getElementById('result-container');
-            // Set current data text
-            dataDiv.innerHTML = xhr.responseText;
-        }
-    }
-    function getUsers() {
-        console.log("Get users...");
-        xhr = getXmlHttpRequestObject();
-        xhr.onreadystatechange = dataCallback;
-        // asynchronous requests
-        xhr.open("GET", "http://localhost:6969/users", true);
-        // Send the request over the network
-        xhr.send(null);
-    }
-    function getDate() {
-        date = new Date().toString();
-
-        document.getElementById('time-container').textContent
-            = date;
-    }
-
-    function sendDataCallback() {
-        // Check response is ready or not
-        if (xhr.readyState === 4 && xhr.status === 201) {
-            console.log("Data creation response received!");
-            getDate();
-            dataDiv = document.getElementById('sent-data-container');
-            // Set current data text
-            dataDiv.innerHTML = xhr.responseText;
-        }
-    }
-
-    function sendData() {
-        dataToSend = document.getElementById('data-input').value;
-        if (!dataToSend) {
-            console.log("Data is empty.");
-            return;
-        }
-        console.log("Sending data: " + dataToSend);
-        xhr = getXmlHttpRequestObject();
-        xhr.onreadystatechange = sendDataCallback;
-        // asynchronous requests
-        xhr.open("POST", "http://localhost:6969/users", true);
-        xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-        // Send the request over the network
-        xhr.send(JSON.stringify({"data": dataToSend}));
-    }
-    (function () {
-        getDate();
-    })();
-</script>
+</html>

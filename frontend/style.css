@@ -1,0 +1,37 @@
+h1 {
+    font-family: Impact;
+    font-size: 500%;
+    margin: 10px;
+}
+
+img {
+    border-radius: 5px;
+}
+
+h3 {
+    font-family: Courier New;
+}
+
+input[type=file] {
+    margin: 5px;
+    padding: 5px 15px;
+    background: #ccc;
+    border: 0 none;
+    font-size: 20px;
+    border-radius: 5px;
+    font-family: Comic Sans MS;
+}
+
+input[type=submit] {
+    padding: 5px 15px;
+    background: mediumseagreen;
+    border: 0 none;
+    font-family: Comic Sans MS;
+    font-size: 20px;
+    border-radius: 5px;
+
+}
+
+input[type=submit]:active {
+        background: #329460
+}
