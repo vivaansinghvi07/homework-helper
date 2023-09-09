@@ -48,7 +48,7 @@ def apply_ai() -> Response:
     elif method == "PRACTICE":
         prompt = """\
         Generate practice problems similar to the question below, where each problem \
-        is seperated by "\n---\n":
+        is seperated by "\n". Do not start each problem with a number:
         {}
         """
     else:

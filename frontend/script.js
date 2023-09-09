@@ -55,16 +55,19 @@ function storedTextsCallback() {
             const { aiResponse } = await callAI(storedTexts.texts[i], "ANSWER");
             hideLoading();
             document.querySelector(`#question${i}solution`).removeAttribute("hidden");
-            document.querySelector(`#question${i}solution-text`).innerHTML = aiResponse;
+            document.querySelector(`#question${i}solution-text`).innerHTML = aiResponse.replace("\n", "<br>");
 
         });
         document.querySelector(`#question${i}gen-questions`).addEventListener("click", async () => {
             showLoading();
             const { aiResponse } = await callAI(storedTexts.texts[i], "PRACTICE");
             hideLoading();
-            const questions = aiResponse.split("\n---\n");
+            const questions = aiResponse.split("\n");
             let questionListHTML = '';
             for (const q of questions) {
+                if (q.trim() === '') {
+                    continue;
+                }
                 questionListHTML += `<li>${q}</li>`;
             }
             document.querySelector(`#question${i}practice`).removeAttribute("hidden");
