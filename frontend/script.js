@@ -34,7 +34,7 @@ function storedTextsCallback() {
                 <pre class="stored-question" id="question-${index}">${value}</pre>
                 <div id="question${index}solution" hidden="hidden">
                     <h4>Solution</h4>
-                    <p style="margin-left: 10px;" id="question${index}solution-text"></p>
+                    <p style="margin-left: 20px;" id="question${index}solution-text"></p>
                 </div>
                 <div id="question${index}practice" hidden="hidden">
                     <h4>Practice</h4>
@@ -51,13 +51,17 @@ function storedTextsCallback() {
             storedTexts.remove(i);
         });
         document.querySelector(`#question${i}solve`).addEventListener("click", async () => {
+            showLoading();
             const { aiResponse } = await callAI(storedTexts.texts[i], "ANSWER");
+            hideLoading();
             document.querySelector(`#question${i}solution`).removeAttribute("hidden");
             document.querySelector(`#question${i}solution-text`).innerHTML = aiResponse;
 
         });
         document.querySelector(`#question${i}gen-questions`).addEventListener("click", async () => {
+            showLoading();
             const { aiResponse } = await callAI(storedTexts.texts[i], "PRACTICE");
+            hideLoading();
             const questions = aiResponse.split("\n---\n");
             let questionListHTML = '';
             for (const q of questions) {
@@ -111,13 +115,3 @@ document.addEventListener("DOMContentLoaded", () => {
         storedTexts.add(text);
     });
 });
-
-
-/*
-Setup:
-    User adds the uploads and submits the image
-    User is able to crop the image and choose which part they wanna work with
-    An API call is made to read text, text comes back and the pop-up is displayed
-    Asks if they wanna edit, regardless of if they edit or not, okay button saves it
-    Then the question is displayed
- */
