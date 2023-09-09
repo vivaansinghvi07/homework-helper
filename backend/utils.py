@@ -5,6 +5,7 @@ import base64
 import numpy as np
 from flask import request
 from paddleocr import PaddleOCR
+from requests.exceptions import HTTPError
 
 OCR = PaddleOCR(use_angle_cls=True, lang='en', show_log=False, rotation=True)
 
@@ -108,10 +109,14 @@ def extract_text_linewise(img: cv2.Mat) -> str:
     return final_string
 
 
-def get_ai_response(prompt: str, problem: str) -> str:
-    response = g4f.ChatCompletion.create(
-        model=g4f.models.gpt_4,
-        messages=[{"role": "user", "content": prompt.format(problem)}],
-        provider=g4f.Provider.DeepAi
-    )
-    return response
+def get_ai_response(prompt: str, problem: str) -> tuple[int, str]:
+    try:
+        response = g4f.ChatCompletion.create(
+            model=g4f.models.gpt_4,
+            messages=[{"role": "user", "content": prompt.format(problem)}],
+            provider=g4f.Provider.DeepAi
+        )
+        print(response)
+        return 0, response
+    except HTTPError:
+        return 1, ''

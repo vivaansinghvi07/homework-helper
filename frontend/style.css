@@ -4,12 +4,17 @@ h1 {
     margin: 10px;
 }
 
-img {
-    border-radius: 5px;
+h2 {
+    font-family: "Roboto Light", "Ubuntu Light", "Ubuntu", monospace;
+    font-size: 400%;
 }
 
 h3 {
-    font-family: Courier New;
+    font-family: "Courier New";
+}
+
+img {
+    border-radius: 10px;
 }
 
 input[type=file] {
@@ -19,19 +24,101 @@ input[type=file] {
     border: 0 none;
     font-size: 20px;
     border-radius: 5px;
-    font-family: Comic Sans MS;
 }
 
 input[type=submit] {
     padding: 5px 15px;
     background: mediumseagreen;
     border: 0 none;
-    font-family: Comic Sans MS;
+    font-family: "Comic Sans MS";
     font-size: 20px;
     border-radius: 5px;
-
 }
 
 input[type=submit]:active {
-        background: #329460
+    background: #329460;
+}
+
+body {
+    margin-bottom: 100px;
+}
+
+#main-body-centered {
+    text-align: center;
+}
+
+.popup {
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    top: 0;
+    left: 0;
+}
+
+.popup-background {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: black;
+    opacity: 70%;
+    top: 0;
+    left: 0;
+}
+
+#text-confirmation {
+    position: absolute;
+    aspect-ratio: 1/1;
+    height: 50vh;
+    border-radius: 20px;
+    margin: 25vh calc((100vw - 50vh) / 2);
+    background-color: white;
+    opacity: 100%;
+}
+
+#text-confirmation-textedit {
+    position: absolute;
+    width: 90%;
+    left: 5%;
+    top: 5%;
+    height: 70%;
+}
+
+#text-confirmation-submit {
+    position: absolute;
+    bottom: 8%;
+    right: 5%;
+}
+
+#text-confirmation-details {
+    position: absolute;
+    bottom: 5%;
+    left: 5%;
+    font-size: 1.5em;
+}
+
+#loading {
+    position: absolute;
+    width: fit-content;
+    height: fit-content;
+    background-color: white;
+    padding: 10px 50px;
+    border-radius: 20px;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
+#cropped-homework-image {
+    max-height: 50vh;
+    border: black solid;
+    margin: 15px auto;
+}
+
+.stored-question-button-container {
+    position: absolute;
+    right: 2%;
+}
+
+.stored-question-button {
+    margin: auto 5px;
 }

@@ -53,30 +53,10 @@ def apply_ai() -> Response:
         """
     else:
         return Response(response="Bad prompt request", status=400)
-    return Response(response=get_ai_response(prompt, data["text"]), status=200)
-
-
-@app.route('/users', methods=["GET", "POST"])
-def users():
-    print("users endpoint reached...")
-    if request.method == "GET":
-        with open("users.json", "r") as f:
-            data = json.load(f)
-            data.append({
-                "username": "user4",
-                "pets": ["hamster"]
-            })
-
-            return flask.jsonify(data)
-    if request.method == "POST":
-        received_data = request.get_json()
-        print(f"received data: {received_data}")
-        message = received_data['data']
-        return_data = {
-            "status": "success",
-            "message": f"received: {message}"
-        }
-        return Response(response=json.dumps(return_data), status=201)
+    status, response = get_ai_response(prompt, data["text"])
+    if status == 1:
+        return Response(response="AI Failed", status=400)
+    return Response(response=response, status=200)
 
 
 if __name__ == "__main__":

@@ -1,26 +1,64 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
+    <!-- Written JS and CSS Linkers -->
     <link rel="stylesheet" href="style.css">
-    <script src="lib/jquery-3.7.1.min.js"></script>
-    <script src="imageTransfer.js"></script>
+    <script src="api.js"></script>
+    <script src="script.js"></script>
+
+    <!-- Metadata -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+
+    <!-- Libraries -->
+    <!-- Bootstrap
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+    -->
+    <script src="lib/jquery-3.7.1.min.js"></script>
+
+    <title>Homework Helper</title>
 </head>
 <body>
 
-<h1>Study Website</h1>
-<h3>Boost your study sessions and generate your own practice problems, tailored to exactly what you're learning.</h3>
-
-<input type="file" id="homework-image">
-<input type="submit" value="Submit" id="homework-image-submit">
+<div id="main-body-centered">
+    <h1>Insert Title Here</h1>
+    <h3>Boost your study sessions and generate your own practice problems, tailored to exactly what you're
+        learning.</h3>
+    <input type="file" id="homework-image">
+    <br>
+    <img id="cropped-homework-image" alt="Image of submitted homework" hidden="hidden">
+    <br>
+    <input style="font-size: 25px;" type="submit" value="Read Text" id="text-read-submit">
+</div>
 
 <br>
 
-<img id="cropped-homework-image" alt="Image of submitted homework" hidden="hidden">
+<div id="stored-texts-container" hidden="hidden">
+    <div style="text-align: center">
+        <h2>My Questions</h2>
+    </div>
+    <div id="stored-texts"></div>
+</div>
 
+<!-- Pop-up for loading screen -->
+<div class="popup" id="loading-container" hidden="hidden">
+    <div class="popup-background"></div>
+    <div id="loading">
+        <h2>Loading...</h2>
+    </div>
+</div>
 
+<!-- Pop-up for OCR text confirmation -->
+<div class="popup" id="text-confirmation-container" hidden="hidden">
+    <div class="popup-background"></div>
+    <div id="text-confirmation">
+        <textarea id="text-confirmation-textedit"></textarea>
+        <p id="text-confirmation-details">Is this correct? Edit if not.</p>
+        <input type="submit" value="Confirm" id="text-confirmation-submit">
+    </div>
+</div>
 
 </body>
 </html>
