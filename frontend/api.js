@@ -56,7 +56,7 @@ function handleCroppedHomework(croppedHomework) {
     // loads the image
     let data = JSON.parse(croppedHomework)
     let img = document.querySelector("#cropped-homework-image");
-    img.removeAttribute("hidden");
+    document.querySelector("#image-container").removeAttribute("hidden");
     img.src = `data:image/png;base64,${data.data}`;
 
     // calculates scale factor from coordinates found

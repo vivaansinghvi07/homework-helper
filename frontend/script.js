@@ -39,11 +39,11 @@ function storedTextsCallback() {
                 <pre class="stored-question" id="question-${index}">${value}</pre>
                 <div id="question${index}solution" hidden="hidden">
                     <h4>Solution</h4>
-                    <p style="margin-left: 20px;" id="question${index}solution-text"></p>
+                    <pre style="margin-left: 20px;" id="question${index}solution-text"></pre>
                 </div>
                 <div id="question${index}practice" hidden="hidden">
                     <h4>Practice</h4>
-                    <ol id="question${index}practice-text"></ol>
+                    <pre><ol id="question${index}practice-text"></ol></pre>
                 </div>
             </div>
         `;
