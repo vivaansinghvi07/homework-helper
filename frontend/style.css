@@ -108,10 +108,18 @@ body {
     transform: translate(-50%, -50%);
 }
 
-#cropped-homework-image {
-    max-height: 50vh;
+#image-container {
+    position: relative;
     border: black solid;
     margin: 15px auto;
+}
+
+#cropped-homework-image, #canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
 }
 
 .stored-question-button-container {

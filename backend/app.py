@@ -1,5 +1,4 @@
 import json
-import flask
 from utils import (
     get_ai_response,
     b64_request_to_img,
@@ -8,7 +7,7 @@ from utils import (
     extract_text_linewise,
 )
 from flask_cors import CORS
-from flask import Flask, request, Response
+from flask import Flask, request, Response, jsonify, make_response
 
 
 # setup app
@@ -25,7 +24,12 @@ def hello():
 def homework_cropper() -> Response:
     img = b64_request_to_img()
     cropped_homework = get_isolated_homework(img)
-    return Response(response=img_to_b64_response(cropped_homework), status=200)
+    height, width = cropped_homework.shape[:2]
+    return make_response(jsonify({
+        "data": img_to_b64_response(cropped_homework).decode('utf-8'),
+        "height": height,
+        "width": width
+    }), 200)
 
 
 @app.route('/api/read_text', methods=["POST"])

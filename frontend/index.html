@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="style.css">
     <script src="api.js"></script>
     <script src="script.js"></script>
+    <script src="pictureSelect.js"></script>
 
     <!-- Metadata -->
     <meta charset="UTF-8">
@@ -28,7 +29,10 @@
         learning.</h3>
     <input type="file" id="homework-image">
     <br>
-    <img id="cropped-homework-image" alt="Image of submitted homework" hidden="hidden">
+    <div id="image-container">
+        <img id="cropped-homework-image" alt="Image of submitted homework" hidden="hidden">
+        <canvas id="canvas"></canvas>
+    </div>
     <br>
     <input style="font-size: 25px;" type="submit" value="Read Text" id="text-read-submit">
 </div>

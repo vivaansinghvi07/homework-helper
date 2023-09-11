@@ -1,19 +1,22 @@
-const storedTexts = {
-    texts: [],
-    add (val) {
-        this.texts.push(val);
-        storedTextsCallback(this.texts);
+const globalStates = {
+    storedTexts: {
+        texts: [],
+        add(val) {
+            this.texts.push(val);
+            storedTextsCallback(this.texts);
+        },
+        remove(index) {
+            this.texts.splice(index, 1);
+            storedTextsCallback(this.texts);
+        }
     },
-    remove (index) {
-        this.texts.splice(index, 1);
-        storedTextsCallback(this.texts);
-    }
+    scaleFactor: 0,
+    canvasRect: {top: 0, left: 0, right: 0, bottom: 0}
 }
-
 
 function storedTextsCallback() {
     let textContainer = document.querySelector("#stored-texts-container");
-    if (storedTexts.texts.length === 0) {
+    if (globalStates.storedTexts.texts.length === 0) {
         textContainer.setAttribute("hidden", "hidden")
     } else {
         textContainer.removeAttribute("hidden");
@@ -21,7 +24,7 @@ function storedTextsCallback() {
 
     // render texts
     let fullHTMLString = "";
-    storedTexts.texts.forEach((value, index) => {
+    globalStates.storedTexts.texts.forEach((value, index) => {
         fullHTMLString += `
             <hr>
             <div>
@@ -30,7 +33,7 @@ function storedTextsCallback() {
                     <input id="question${index}solve" type="submit" value="Solve">
                     <input id="question${index}remove" type="submit" value="Remove">
                 </div>
-                <h3>Question ${index+1}</h3>
+                <h3>Question ${index + 1}</h3>
                 <pre class="stored-question" id="question-${index}">${value}</pre>
                 <div id="question${index}solution" hidden="hidden">
                     <h4>Solution</h4>
@@ -46,13 +49,13 @@ function storedTextsCallback() {
     document.querySelector("#stored-texts").innerHTML = fullHTMLString;
 
     // load removal for each
-    for (let i = 0; i < storedTexts.texts.length; i++) {
+    for (let i = 0; i < globalStates.storedTexts.texts.length; i++) {
         document.querySelector(`#question${i}remove`).addEventListener("click", () => {
-            storedTexts.remove(i);
+            globalStates.storedTexts.remove(i);
         });
         document.querySelector(`#question${i}solve`).addEventListener("click", async () => {
             showLoading();
-            const { aiResponse } = await callAI(storedTexts.texts[i], "ANSWER");
+            const {aiResponse} = await callAI(globalStates.storedTexts.texts[i], "ANSWER");
             hideLoading();
             document.querySelector(`#question${i}solution`).removeAttribute("hidden");
             document.querySelector(`#question${i}solution-text`).innerHTML = aiResponse.replace("\n", "<br>");
@@ -60,7 +63,7 @@ function storedTextsCallback() {
         });
         document.querySelector(`#question${i}gen-questions`).addEventListener("click", async () => {
             showLoading();
-            const { aiResponse } = await callAI(storedTexts.texts[i], "PRACTICE");
+            const {aiResponse} = await callAI(globalStates.storedTexts.texts[i], "PRACTICE");
             hideLoading();
             const questions = aiResponse.split("\n");
             let questionListHTML = '';
@@ -115,6 +118,6 @@ document.addEventListener("DOMContentLoaded", () => {
     document.querySelector("#text-confirmation-submit").addEventListener("click", () => {
         let text = document.querySelector("#text-confirmation-textedit").value;
         document.querySelector("#text-confirmation-container").setAttribute("hidden", "hidden")
-        storedTexts.add(text);
+        globalStates.storedTexts.add(text);
     });
 });

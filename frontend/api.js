@@ -8,7 +8,6 @@ async function callAI(text, method) {
         XHR.onreadystatechange = () => {
             if (XHR.readyState === 4) {
                 if (XHR.status === 200) {
-                    console.log("received");
                     outputString = XHR.responseText;
                 } else {
                     status = 1;
@@ -46,9 +45,34 @@ async function readText(b64img) {
 }
 
 function handleCroppedHomework(croppedHomework) {
+
+    // loads the image
+    let data = JSON.parse(croppedHomework)
     let img = document.querySelector("#cropped-homework-image");
     img.removeAttribute("hidden");
-    img.src = `data:image/png;base64,${croppedHomework}`;
+    img.src = `data:image/png;base64,${data.data}`;
+
+    // calculates scale factor from coordinates found
+    let maxWidth = window.innerWidth / 10 * 9;
+    let maxHeight = window.innerHeight / 10 * 9;
+    let scaleFactor = Math.min(maxWidth / data.width, maxHeight / data.height, 1);
+
+    // adjusts the image container to fit the widths
+    document.querySelector("#image-container").style.width = `${Math.round(scaleFactor * data.width)}px`;
+    document.querySelector("#image-container").style.height = `${Math.round(scaleFactor * data.height)}px`;
+
+    // set canvas width and height equal to image width and height
+    let canvas = document.querySelector("#canvas");
+    canvas.style.width = img.style.width;
+    canvas.style.height = img.style.height;
+
+    // adjust globals
+    globalStates.scaleFactor = scaleFactor;
+    globalStates.canvasRect = canvas.getBoundingClientRect();
+    console.log(globalStates.canvasRect);
+    initial();
+    console.log(scaleFactor)
+
 }
 
 async function cropHomework() {
@@ -82,6 +106,4 @@ async function cropHomework() {
         });
         FR.readAsDataURL(this.files[0]);
     });
-
-    return {croppedHomework: outputString, croppedHomeworkStatus: status};
 }
