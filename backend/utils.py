@@ -14,7 +14,14 @@ def b64_request_to_img() -> cv2.Mat:
     received_image = request.get_json()
     base64_image = received_image["data"]
     np_buf = np.frombuffer(base64.b64decode(base64_image), np.uint8)
-    return cv2.imdecode(np_buf, cv2.IMREAD_COLOR)
+    img = cv2.imdecode(np_buf, cv2.IMREAD_COLOR)
+    if v := received_image.get("crop_dims", None):
+        print(v)
+        img = img[
+            min(v["y1"], v["y2"]):max(v["y1"], v["y2"]),
+            min(v["x1"], v["x2"]):max(v["x1"], v["x2"])
+        ]
+    return img
 
 
 def img_to_b64_response(img: cv2.Mat) -> bytes:

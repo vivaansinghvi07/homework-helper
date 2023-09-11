@@ -1,66 +1,76 @@
-var c = [];
-var mouseDown = false;
-var c1X = 0;
-var c1Y = 0;
-var c2X = 0;
-var c2Y = 0;
+function getX(event) {
+    return event.clientX + window.scrollX - globalStates.canvasRect.left;
+}
+
+function getY(event) {
+    return event.clientY + window.scrollY - globalStates.canvasRect.top;
+}
+
+function fillBackground(canvas, ctx) {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.rect(0, 0, canvas.width, canvas.height);
+    ctx.globalAlpha = 0.5;
+    ctx.fillStyle = "black";
+    ctx.fill();
+}
+
+function drawSelectedRect(ctx) {
+    ctx.beginPath();
+    ctx.rect(globalStates.selectorCursor.x1, globalStates.selectorCursor.y1, (globalStates.selectorCursor.x2 - globalStates.selectorCursor.x1), globalStates.selectorCursor.y2 - globalStates.selectorCursor.y1);
+    ctx.clearRect(globalStates.selectorCursor.x1, globalStates.selectorCursor.y1, (globalStates.selectorCursor.x2 - globalStates.selectorCursor.x1), globalStates.selectorCursor.y2 - globalStates.selectorCursor.y1);
+    ctx.globalAlpha = 1;
+    ctx.fillStyle = "white";
+    ctx.stroke();
+}
 
 
-function initial() {
+function renderCropper() {
+
+    // get current canvas
     let canvas = document.querySelector("#canvas");
     let ctx = canvas.getContext("2d");
-    ctx.setLineDash([5, 5]);
+
+    // set width and height to match image
+    canvas.width = globalStates.canvasRect.right - globalStates.canvasRect.left;
+    canvas.height = globalStates.canvasRect.bottom - globalStates.canvasRect.top;
+
+    // set initial values
+    fillBackground(canvas, ctx);
+    ctx.setLineDash([10, 8]);
+    ctx.lineWidth = 4;
+    ctx.strokeStyle = "white";
+
+    // when user starts selecting
     canvas.addEventListener("mousedown", (event) => {
-        c = [];
-        if (!mouseDown) {
-            c1X = event.clientX - globalStates.canvasRect.left;
-            c1Y = event.clientY - globalStates.canvasRect.top;
-            mouseDown = true;
+        if (!globalStates.selectorMouseDown) {
+            globalStates.selectorCursor.x1 = getX(event);
+            globalStates.selectorCursor.y1 = getY(event);
+            globalStates.selectorMouseDown = true;
         }
     });
+
+    // when user is done selecting
     canvas.addEventListener("mouseup", (event) => {
-        mouseDown = false;
-        c2X = event.clientX - globalStates.canvasRect.left;
-        c2Y = event.clientY - globalStates.canvasRect.top;
+        // set final x and y values
+        globalStates.selectorCursor.x2 = getX(event);
+        globalStates.selectorCursor.y2 = getY(event);
+        globalStates.selectorMouseDown = false;
 
-
-        ctx.beginPath();
-
-        ctx.rect(c1X, c1Y, (c2X - c1X), c2Y - c1Y);
-        ctx.clearRect(c1X, c1Y, (c2X - c1X), c2Y - c1Y);
-        ctx.globalAlpha = 1;
-        ctx.stroke();
-
-        //ctx.globalAlpha = 0.2;
-        //ctx.fillStyle = "white";
-        //ctx.fill();
-
-
-        //alert(cX+" "+cY)
-        c.push(c1X, c1Y, c2X, c2Y)
-        console.log(c);
-        c1X = 0;
-        c1Y = 0;
-        c2X = 0;
-        c2Y = 0;
+        // draw final lined rectangle
+        drawSelectedRect(ctx);
     });
     canvas.onmousemove = (event) => {
-        if (mouseDown) {
+        if (globalStates.selectorMouseDown) {
 
-            // clear canvas
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            // ctx.rect(0, 0, canvas.width, canvas.height);
-            ctx.globalAlpha = 0.;
-            ctx.fillStyle = "grey";
-            ctx.fill();
-            c2X = event.clientX - globalStates.canvasRect.left;
-            c2Y = event.clientY - globalStates.canvasRect.top;
+            // put background back
+            fillBackground(canvas, ctx);
 
-            ctx.beginPath();
+            // obtain current cursor values
+            globalStates.selectorCursor.x2 = getX(event);
+            globalStates.selectorCursor.y2 = getY(event);
 
-            ctx.rect(c1X, c1Y, (c2X - c1X), c2Y - c1Y);
-            ctx.globalAlpha = 1;
-            ctx.stroke();
+            // draw the rectangle
+            drawSelectedRect(ctx);
 
         }
     }

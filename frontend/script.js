@@ -11,7 +11,9 @@ const globalStates = {
         }
     },
     scaleFactor: 0,
-    canvasRect: {top: 0, left: 0, right: 0, bottom: 0}
+    canvasRect: {top: 0, left: 0, right: 0, bottom: 0},
+    selectorCursor: {x1: 0, y1: 0, x2: 0, y2: 0},
+    selectorMouseDown: false,
 }
 
 function storedTextsCallback() {

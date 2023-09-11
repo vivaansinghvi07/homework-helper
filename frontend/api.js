@@ -19,7 +19,7 @@ async function callAI(text, method) {
         XHR.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
         XHR.send(JSON.stringify({"text": text, "method": method}));
     });
-    return { aiResponse: outputString, aiResponseStatus: status };
+    return {aiResponse: outputString, aiResponseStatus: status};
 }
 
 async function readText(b64img) {
@@ -39,7 +39,14 @@ async function readText(b64img) {
         };
         XHR.open("POST", `${SERVER_URL}/api/read_text`, true);
         XHR.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-        XHR.send(JSON.stringify({"data": b64img}));
+        XHR.send(JSON.stringify({
+            "data": b64img, "crop_dims": {
+                "x1": Math.round(globalStates.selectorCursor.x1 * (1 / globalStates.scaleFactor)),
+                "y1": Math.round(globalStates.selectorCursor.y1 * (1 / globalStates.scaleFactor)),
+                "x2": Math.round(globalStates.selectorCursor.x2 * (1 / globalStates.scaleFactor)),
+                "y2": Math.round(globalStates.selectorCursor.y2 * (1 / globalStates.scaleFactor)),
+            }
+        }));
     });
     return {textRead: outputString, textReadStatus: status};
 }
@@ -69,10 +76,7 @@ function handleCroppedHomework(croppedHomework) {
     // adjust globals
     globalStates.scaleFactor = scaleFactor;
     globalStates.canvasRect = canvas.getBoundingClientRect();
-    console.log(globalStates.canvasRect);
-    initial();
-    console.log(scaleFactor)
-
+    renderCropper();
 }
 
 async function cropHomework() {
