@@ -6,3 +6,4 @@ matplotlib==3.7.2
 matplotlib-inline==0.1.6
 numpy==1.25.2
 Flask-Cors==3.0.10
+g4f==0.0.2.7
