@@ -123,7 +123,6 @@ def get_ai_response(prompt: str, problem: str) -> tuple[int, str]:
             messages=[{"role": "user", "content": prompt.format(problem)}],
             provider=g4f.Provider.DeepAi
         )
-        print(response)
         return 0, response
     except HTTPError:
         return 1, ''
