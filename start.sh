@@ -4,8 +4,5 @@ then
 fi
 source .venv/bin/activate
 pip install -r requirements.txt
-if [ ! $(which live-server) ]
-then
-    npm install -g live-server
-fi
+npm install -g live-server
 python3 backend/app.py & live-server frontend
